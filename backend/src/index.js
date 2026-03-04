@@ -25,7 +25,7 @@ app.use(express.json());
 app.use(cookieParser());
 var corsOrigins = process.env.FRONTEND_URL
   ? process.env.FRONTEND_URL.split(",").map(function(s) { return s.trim(); })
-  : ["http://localhost:3000", "http://localhost:5000", "https://darkslategray-jaguar-744762.hostingersite.com"];
+  : ["http://localhost:3000", "http://localhost:5000", "https://darkslategray-jaguar-744762.hostingersite.com", "https://budget-basket.onrender.com"];
 app.use(
   cors({
     origin: corsOrigins,
@@ -77,6 +77,11 @@ app.get("/product.html", (_req, res) => res.sendFile("product.html", { root: app
 app.get("/auth/login", (_req, res) => res.sendFile("auth/login.html", { root: appRoot }));
 app.get("/auth/register", (_req, res) => res.sendFile("auth/register.html", { root: appRoot }));
 app.use(express.static(appRoot));
+
+/* ── 404 handler (return JSON for API routes, avoid "Not Found" parse errors) ── */
+app.use((_req, res) => {
+  res.status(404).json({ error: "Not found" });
+});
 
 /* ── Error Handler ────────────────────────────────────────── */
 

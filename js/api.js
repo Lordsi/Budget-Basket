@@ -37,7 +37,11 @@
           return Promise.reject(new Error('Unauthorized'));
         });
       }
-      return res.json().then(function(body) {
+      return res.text().then(function(txt) {
+        var body;
+        try { body = txt ? JSON.parse(txt) : {}; } catch (e) {
+          throw new Error(res.status === 404 ? 'Service unavailable. Please try again.' : 'Invalid server response');
+        }
         if (!res.ok) throw Object.assign(new Error(body.error || 'Request failed'), { response: res, body: body });
         return body;
       });
