@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script>try{var t=localStorage.getItem('bbTheme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');else if(t==='light')document.documentElement.setAttribute('data-theme','light');else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.setAttribute('data-theme','dark');else document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#e8f5e9">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>BudgetBasket - Stop Overpaying for Groceries in Malawi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="home landing-v2">
+  <header class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">BudgetBasket</a>
+      <div class="nav-right">
+        <a href="products.html" class="nav-link nav-link-browse">Browse</a>
+        <a href="basket.html" class="nav-basket" aria-label="Basket">
+          <span class="nav-basket-icon" id="nav-cart-icon"></span>
+          <span class="nav-basket-badge" id="nav-cart-badge" style="display:none">0</span>
+        </a>
+        <div class="nav-theme-toggle" id="nav-theme-toggle"></div>
+        <div class="nav-user" id="nav-user"></div>
+        <a href="basket.html" class="nav-basket nav-basket-mobile" aria-label="Basket">
+          <span class="nav-basket-icon" id="nav-cart-icon-mobile"></span>
+          <span class="nav-basket-badge" id="nav-cart-badge-mobile" style="display:none">0</span>
+        </a>
+        <button type="button" class="nav-menu-btn" id="nav-menu-btn" aria-label="Open menu"></button>
+      </div>
+    </div>
+    <div class="mobile-menu" id="mobile-menu">
+      <div class="mobile-overlay" id="mobile-overlay"></div>
+      <div class="mobile-panel" id="mobile-panel"></div>
+    </div>
+  </header>
+
+  <div id="sticky-basket-bar" class="sticky-basket-bar" style="display:none"></div>
+
+  <main class="page">
+    <!-- Hero: emotional hook + glassmorphism search -->
+    <section class="hero-v2">
+      <div class="hero-v2-bg"></div>
+      <div class="hero-v2-overlay"></div>
+      <div class="container hero-v2-inner">
+        <h1 class="hero-v2-title">Stop Overpaying for Groceries in Malawi.</h1>
+        <p class="hero-v2-sub">Compare real-time prices at Shoprite, Spar, Metro, and more. We find the cheapest shelves so you don&rsquo;t have to.</p>
+        <form id="hero-search-form" class="hero-search-wrap" action="products.html" method="get">
+          <div class="hero-search-glass">
+            <input type="search" id="hero-search-input" name="search" class="hero-search-input" placeholder="Search for soap, oil, rice..." autocomplete="off" aria-label="Search products">
+            <button type="submit" class="hero-search-btn" aria-label="Search">
+              <span class="hero-search-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></span>
+            </button>
+          </div>
+          <div id="hero-search-suggest" class="hero-search-suggest"></div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Live Savings Ticker -->
+    <section class="ticker-section">
+      <div class="ticker-wrap">
+        <span class="ticker-label">Live savings</span>
+        <div class="ticker-track" id="live-ticker">
+          <span class="ticker-item">Soap (1kg) is MWK 400 cheaper at Metro today!</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Top Product of the Week (Most bought by users) -->
+    <section class="section section-popular" id="top-product">
+      <div class="container">
+        <h2 class="section-title">Top Product of the Week</h2>
+        <p class="section-desc">The most bought by other shoppers. See what everyone&rsquo;s adding to their baskets.</p>
+        <div class="popular-hero" id="popular-hero"></div>
+        <div class="popular-grid" id="popular-grid"></div>
+      </div>
+    </section>
+
+    <!-- Featured Deals (Top 4 Price Drops) -->
+    <section class="section section-deals" id="featured-deals">
+      <div class="container">
+        <h2 class="section-title">Top Price Drops This Week</h2>
+        <p class="section-desc">Real savings. Click to add to your basket.</p>
+        <div class="deals-grid" id="deals-grid">
+          <div class="deal-skeleton"></div>
+          <div class="deal-skeleton"></div>
+          <div class="deal-skeleton"></div>
+          <div class="deal-skeleton"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works 1-2-3 -->
+    <section id="how-it-works" class="section section-steps">
+      <div class="container">
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-desc">Three simple steps to smarter shopping.</p>
+        <div class="steps-grid steps-v2">
+          <div class="step-item step-v2">
+            <span class="step-icon step-icon-search"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></span>
+            <h3 class="step-title">Search</h3>
+            <p class="step-desc">Add your monthly essentials to your digital basket.</p>
+          </div>
+          <div class="step-item step-v2">
+            <span class="step-icon step-icon-optimize"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18"/><path d="m8 7 4 4 4-4"/><path d="m8 17 4-4 4 4"/></svg></span>
+            <h3 class="step-title">Optimize</h3>
+            <p class="step-desc">We automatically find which store has the lowest total price.</p>
+          </div>
+          <div class="step-item step-v2">
+            <span class="step-icon step-icon-save"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20"/><path d="m5 9 7 7 7-7"/><path d="M5 15h14"/></svg></span>
+            <h3 class="step-title">Save</h3>
+            <p class="step-desc">Go to the store with your list and save up to 20% on your bill.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Basket Comparison Mockup -->
+    <section class="section section-comparison">
+      <div class="container">
+        <h2 class="section-title">See the Difference</h2>
+        <p class="section-desc">Our algorithm splits your list or finds the best single-store route to keep your money in your pocket.</p>
+        <div class="comparison-mockup">
+          <div class="comparison-col comparison-store">
+            <span class="comparison-label">Store A</span>
+            <span class="comparison-total">MWK 45,000</span>
+          </div>
+          <div class="comparison-col comparison-store">
+            <span class="comparison-label">Store B</span>
+            <span class="comparison-total">MWK 38,500</span>
+          </div>
+          <div class="comparison-col comparison-best">
+            <span class="comparison-label">BudgetBasket optimized</span>
+            <span class="comparison-total">MWK 34,000</span>
+            <span class="comparison-save">Save MWK 11,000</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats + Verified Stores -->
+    <section class="section section-stats">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-item"><span class="stat-value">82</span><span class="stat-label">Products indexed</span></div>
+          <div class="stat-item"><span class="stat-value">5</span><span class="stat-label">Stores tracked</span></div>
+          <div class="stat-item"><span class="stat-value">Weekly</span><span class="stat-label">Prices updated</span></div>
+        </div>
+        <div class="store-badges">
+          <span class="store-badge"><span class="store-badge-check">✓</span> Shoprite</span>
+          <span class="store-badge"><span class="store-badge-check">✓</span> Spar</span>
+          <span class="store-badge"><span class="store-badge-check">✓</span> Game</span>
+          <span class="store-badge"><span class="store-badge-check">✓</span> PTC</span>
+          <span class="store-badge"><span class="store-badge-check">✓</span> Metro</span>
+        </div>
+        <p class="location-cta">
+          <span class="location-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></span>
+          Now serving Mzuzu (Lilongwe, Blantyre &amp; Zomba coming soon)
+        </p>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section section-cta">
+      <div class="container cta-inner">
+        <p class="cta-title">Join thousands of smart shoppers in Malawi</p>
+        <p class="cta-sub">Start comparing prices and saving today.</p>
+        <a href="products.html" class="btn btn-secondary btn-lg">Start Shopping</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <a href="index.html" class="footer-logo">BudgetBasket</a>
+      <p class="footer-tagline">Build Smarter Baskets</p>
+      <nav class="footer-nav">
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+        <a href="#">Privacy</a>
+      </nav>
+      <p class="footer-copy" id="footer-year"></p>
+    </div>
+  </footer>
+
+  <script>window.API_BASE = (window.location.protocol === 'file:' ? 'http://localhost:5000' : window.location.origin) + '/api';</script>
+  <script src="js/icons.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/basket.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/index.js"></script>
+  <script>
+    document.getElementById('footer-year').textContent = new Date().getFullYear() + ' BudgetBasket. All rights reserved.';
+  </script>
+</body>
+</html>

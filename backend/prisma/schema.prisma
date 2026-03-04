@@ -1,0 +1,148 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(USER)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  cart         Cart?
+  savedLists   SavedList[]
+  productWatch ProductWatch[]
+
+  @@map("users")
+}
+
+model Store {
+  id                String   @id @default(cuid())
+  name              String   @unique
+  location          String
+  latitude          Float?
+  longitude         Float?
+  deliveryAvailable Boolean  @default(false) @map("delivery_available")
+  deliveryCost      Float    @default(0) @map("delivery_cost")
+  imageUrl          String?  @map("image_url")
+  createdAt         DateTime @default(now()) @map("created_at")
+
+  storePrices StorePrice[]
+
+  @@map("stores")
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  category    String
+  subcategory String?
+  brand       String?
+  size        String?
+  unit        String?
+  imageUrl    String?  @map("image_url")
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  storePrices    StorePrice[]
+  cartItems      CartItem[]
+  savedListItems SavedListItem[]
+  productWatch   ProductWatch[]
+
+  @@index([category])
+  @@index([name])
+  @@map("products")
+}
+
+model StorePrice {
+  id        String   @id @default(cuid())
+  productId String   @map("product_id")
+  storeId   String   @map("store_id")
+  price     Float
+  inStock   Boolean  @default(true) @map("in_stock")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  store   Store   @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, storeId])
+  @@index([productId])
+  @@index([storeId])
+  @@map("store_prices")
+}
+
+model Cart {
+  id        String   @id @default(cuid())
+  userId    String   @unique @map("user_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user  User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items CartItem[]
+
+  @@map("carts")
+}
+
+model CartItem {
+  id        String @id @default(cuid())
+  cartId    String @map("cart_id")
+  productId String @map("product_id")
+  quantity  Int    @default(1)
+  storeId   String? @map("preferred_store_id")
+
+  cart    Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([cartId, productId])
+  @@map("cart_items")
+}
+
+model SavedList {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  name      String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user  User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items SavedListItem[]
+
+  @@map("saved_lists")
+}
+
+model SavedListItem {
+  id          String @id @default(cuid())
+  savedListId String @map("saved_list_id")
+  productId   String @map("product_id")
+  quantity    Int    @default(1)
+
+  savedList SavedList @relation(fields: [savedListId], references: [id], onDelete: Cascade)
+  product   Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([savedListId, productId])
+  @@map("saved_list_items")
+}
+
+model ProductWatch {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  productId String   @map("product_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+  @@map("product_watch")
+}
