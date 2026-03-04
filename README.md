@@ -47,13 +47,16 @@ Shopping Basket/
 cd backend
 npm install
 
-# Configure your database URL in .env
-# DATABASE_URL="postgresql://postgres:password@localhost:5432/budgetbasket"
+# Copy .env.example to .env and configure DATABASE_URL
+cp .env.example .env
+
+# For Supabase: Get your database password from Supabase Dashboard > Settings > Database
+# Then set: DATABASE_URL="postgresql://postgres:[YOUR-PASSWORD]@db.bjpdkxjtnpfwtofqgpfj.supabase.co:5432/postgres"
 
 # Run database migrations
-npx prisma migrate dev --name init
+npx prisma migrate deploy
 
-# Seed the database with sample data
+# Seed the database with sample data (optional)
 npm run db:seed
 
 # Start the dev server
